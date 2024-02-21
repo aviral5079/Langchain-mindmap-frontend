@@ -1,0 +1,74 @@
+@import "constants";
+
+.appbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: $secondary-color;
+  color: $accent-color;
+  font-family: "Roboto", sans-serif;
+  height: 60px;
+}
+
+.left-section,
+.middle-section,
+.right-section {
+  display: flex;
+  align-items: center;
+}
+
+.app-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+  color: $primary-color;
+}
+
+.app-logo {
+  width: 75px;
+  height: auto;
+  margin: 0 0.5rem 0 0;
+  border-radius: 20%;
+  border: 2px solid $accent-color;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-button {
+  background-color: transparent;
+  border: none;
+  color: $accent-color;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-button:hover {
+  color: $primary-color;
+}
+
+.nav-button:hover::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: $primary-color;
+  bottom: 0;
+  left: 0;
+  transition: width 0.03s ease;
+}
+
+/* Media query for responsive design */
+@media screen and (max-width: 768px) {
+  .app-name {
+    font-size: 20px;
+  }
+
+  .nav-button {
+    font-size: 14px;
+  }
+}

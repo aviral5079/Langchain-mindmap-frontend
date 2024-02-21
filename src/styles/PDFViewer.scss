@@ -1,0 +1,41 @@
+@import "constants";
+
+.not-available {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: $background-color;
+}
+
+.not-available h1 {
+  font-size: 30px;
+  font-family: $heading-font;
+  text-align: center;
+  font-weight: 700;
+  color: $heading-color;
+  overflow: hidden;
+}
+
+.pdf-container {
+  height: 100%;
+  width: 100%;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media screen and (max-width: 768px) {
+  .not-available h1 {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .not-available h1 {
+    font-size: 20px;
+  }
+}
