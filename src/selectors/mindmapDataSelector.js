@@ -136,3 +136,30 @@ export const getVisibleEdges = (nodes, edges, rootId) => {
   }
   return tempEdges;
 };
+
+const helper = (GraphNodes, id, visited, content) => {
+  visited[id] = true;
+  if (GraphNodes[id]?.data?.title) {
+    const temp = {
+      title: GraphNodes[id]?.data?.title || `Default Title ${id}`,
+    };
+    content?.push(temp);
+    adjList[id]?.forEach((neighbor) => {
+      if (!visited[neighbor]) {
+        helper(GraphNodes, neighbor, visited, content);
+      }
+    });
+  } else {
+    const temp = {
+      text: GraphNodes[id]?.data?.text || `Default Text: ${id}`,
+    };
+    content?.push(temp);
+  }
+};
+
+export const getContent = (nodes, nodeId) => {
+  const content = [];
+  const visited = {};
+  helper(nodes, nodeId, visited, content);
+  return content;
+};

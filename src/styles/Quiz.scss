@@ -1,0 +1,98 @@
+@import "constants";
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+.quiz-container {
+  background: $accent-color;
+  width: 90%;
+  max-width: 600px;
+  margin: 10px auto 0;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $secondary-color;
+  padding-bottom: 15px;
+}
+
+.quiz-container h1 {
+  font-size: 25px;
+  color: $secondary-color;
+  font-weight: 600;
+}
+
+.quiz {
+  padding: 20px 0;
+}
+
+.quiz h2 {
+  font-size: 18px;
+  color: $secondary-color;
+  font-weight: 600;
+}
+
+#answer-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  background: $accent-color;
+  color: $secondary-color;
+  font-weight: 500;
+  width: 75%;
+  border: 1px solid $secondary-color;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+column-reversecolumn-reverse .btn:hover:not([disabled]) {
+  background: $secondary-color;
+  color: $accent-color;
+}
+
+.btn:disabled {
+  cursor: no-drop;
+}
+
+#next-button:disabled {
+  background: #bfc2c8;
+  cursor: no-drop;
+}
+
+#next-button {
+  background: $primary-color;
+  color: $accent-color;
+  font-weight: 500;
+  width: 300px;
+  border: 0;
+  padding: 15px;
+  margin: 20px auto 0;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.correct {
+  background: #9aeabc;
+}
+
+.incorrect {
+  background: #ff9393;
+}

@@ -17,6 +17,22 @@
   overflow: hidden;
 }
 
+.mindmap-container {
+  height: 100%;
+  width: 70%;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.node-details-container {
+  height: 100%;
+  flex: 1;
+}
+
 .react-flow__node {
   border: 2px solid $secondary-color;
   padding: 10px;

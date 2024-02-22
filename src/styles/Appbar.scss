@@ -51,7 +51,7 @@
   color: $primary-color;
 }
 
-.nav-button:hover::after {
+.nav-button.selected {
   content: "";
   position: absolute;
   width: 100%;

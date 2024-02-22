@@ -7,6 +7,7 @@ import { thunk } from "redux-thunk";
 import documentsReducer from "../reducers/documentsReducer";
 import currentDocumentReducer from "../reducers/currentDocumentReducer";
 import mindmapReducer from "../reducers/mindmapReducer";
+import nodeDetailsReducer from "../reducers/nodeDetailsReducer";
 
 const composeMiddleware = applyMiddleware(thunk);
 
@@ -16,6 +17,7 @@ const configureStore = () => {
       documentList: documentsReducer,
       currentDocument: currentDocumentReducer,
       mindmap: mindmapReducer,
+      nodeDetails: nodeDetailsReducer,
     }),
     composeMiddleware
   );

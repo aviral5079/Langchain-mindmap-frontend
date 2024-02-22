@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { setRootNode, setSelectedNode } from "../actions/mindmapActions";
+import {
+  setRootNode,
+  setSelectedNode,
+  setNodeDetails,
+} from "../actions/mindmapActions";
 import { Handle, Position } from "reactflow";
 import {
   CircularProgress,
@@ -23,6 +27,7 @@ const CustomNode = ({
   isConnectable,
   setRootNode,
   setSelectedNode,
+  setNodeDetails,
 }) => {
   const [expand, setExpand] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -57,6 +62,7 @@ const CustomNode = ({
           className="treeNode-header__title"
           onClick={() => {
             setSelectedNode(data.key);
+            setNodeDetails(data.key);
           }}
         >
           <Heading as="h4" size="lg" color="#23272a" textAlign="center">
@@ -121,6 +127,7 @@ const mapStateToProps = ({ mindmap }) => ({
 const mapDispatchToProps = {
   setRootNode,
   setSelectedNode,
+  setNodeDetails,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomNode);

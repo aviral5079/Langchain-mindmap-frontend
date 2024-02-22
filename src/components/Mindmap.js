@@ -13,6 +13,7 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import CustomNode from "./CustomNode";
+import NodeDetails from "./NodeDetails";
 import "../styles/Mindmap.scss";
 
 const snapGrid = [20, 20];
@@ -52,9 +53,16 @@ const CustomNodeFlow = ({ GraphNodes, GraphEdges }) => {
 const Mindmap = ({ currentDocument, GraphNodes, GraphEdges }) => {
   if (currentDocument) {
     return (
-      <ReactFlowProvider>
-        <CustomNodeFlow GraphNodes={GraphNodes} GraphEdges={GraphEdges} />
-      </ReactFlowProvider>
+      <div className="container">
+        <div className="mindmap-container">
+          <ReactFlowProvider>
+            <CustomNodeFlow GraphNodes={GraphNodes} GraphEdges={GraphEdges} />
+          </ReactFlowProvider>
+        </div>
+        <div className="node-details-container">
+          <NodeDetails />
+        </div>
+      </div>
     );
   } else {
     <div className="not-available">
