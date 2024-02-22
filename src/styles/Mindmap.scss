@@ -1,0 +1,33 @@
+@import "constants";
+
+.not-available {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: $background-color;
+}
+
+.not-available h1 {
+  font-size: 30px;
+  font-family: $heading-font;
+  text-align: center;
+  font-weight: 700;
+  color: $heading-color;
+  overflow: hidden;
+}
+
+.react-flow__node {
+  border: 2px solid $secondary-color;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.react-flow__node.selected {
+  border: 4px solid $secondary-color;
+}
+
+.react-flow__edge-path {
+  stroke: $primary-color;
+  stroke-width: 4;
+}

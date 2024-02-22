@@ -6,17 +6,16 @@ import {
 import { thunk } from "redux-thunk";
 import documentsReducer from "../reducers/documentsReducer";
 import currentDocumentReducer from "../reducers/currentDocumentReducer";
+import mindmapReducer from "../reducers/mindmapReducer";
 
-const composeMiddleware = applyMiddleware(
-  thunk
-  // currentDocumentListenerMiddleware
-);
+const composeMiddleware = applyMiddleware(thunk);
 
 const configureStore = () => {
   const store = createStore(
     combineReducers({
       documentList: documentsReducer,
       currentDocument: currentDocumentReducer,
+      mindmap: mindmapReducer,
     }),
     composeMiddleware
   );

@@ -1,5 +1,6 @@
 import { post } from "../services/api";
 import { addDocument } from "../actions/documentsActions";
+import { getMindmap } from "../actions/mindmapActions";
 import * as types from "../constants/actionTypes";
 
 export const setCurrentDocument = (document) => ({
@@ -21,6 +22,7 @@ export const uploadDocument = (file) => {
         [response.pdf_id]: response.file_path,
       };
       dispatch(addDocument(newDocument));
+      dispatch(getMindmap(response.pdf_id));
     } catch (err) {
       // Dispatch failure action if needed
       dispatch({ type: types.UPLOAD_DOCUMENT_FAILURE, payload: err.message });
