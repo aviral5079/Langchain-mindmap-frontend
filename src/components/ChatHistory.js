@@ -17,7 +17,11 @@ const ChatHistory = ({ chats }) => {
         <li key={index} className={`${message.role}-message`}>
           {message.role === "user" ? (
             <Stack direction="row" spacing={2}>
-              <Avatar size="xs" bg="#3d72AF" />
+              <Avatar
+                size="sm"
+                bg="#485550"
+                icon={<Icon as={GoDependabot} color="#c0eb6a" />}
+              />
               <span className="message">{message.message}</span>
             </Stack>
           ) : (

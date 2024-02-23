@@ -3,6 +3,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 h1,
@@ -22,4 +23,5 @@ h6 {
 .main-container {
   height: 100%;
   display: flex;
+  // margin: 10px;
 }

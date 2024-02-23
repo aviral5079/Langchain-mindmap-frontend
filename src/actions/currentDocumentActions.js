@@ -1,6 +1,8 @@
 import { post } from "../services/api";
 import { addDocument } from "../actions/documentsActions";
 import { getMindmap } from "../actions/mindmapActions";
+import { resetChats } from "../actions/chatsActions";
+import { resetNodeQuestions } from "../actions/nodeDetailsActions";
 import * as types from "../constants/actionTypes";
 
 export const setCurrentDocument = (document) => ({
@@ -27,6 +29,8 @@ export const uploadDocument = (file) => {
       };
       dispatch(addDocument(newDocument));
       dispatch(getMindmap(response.pdf_id));
+      dispatch(resetChats());
+      dispatch(resetNodeQuestions());
     } catch (err) {
       // Dispatch failure action if needed
       dispatch({ type: types.UPLOAD_DOCUMENT_FAILURE, payload: err.message });

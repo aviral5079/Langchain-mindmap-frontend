@@ -28,6 +28,13 @@ const chatsReducer = (state = initialState, action) => {
         isChatLoading: false,
         chatError: action.payload.error,
       };
+    case types.RESET_CHATS:
+      return {
+        ...state,
+        chats: [],
+        isChatLoading: false,
+        chatError: null,
+      };
     case types.TOGGLE_IS_CHATBAR_VISIBLE:
       return {
         ...state,

@@ -14,7 +14,6 @@ const initialState = {
 };
 
 const nodeDetailsReducer = (state = initialState, action) => {
-  // console.log("action called: ", action.type, action.payload);
   switch (action.type) {
     case types.FETCH_NODE_CONTENT_REQUEST:
       return {
@@ -75,6 +74,11 @@ const nodeDetailsReducer = (state = initialState, action) => {
         areQuestionsLoading: false,
         questions: [],
         questionsError: action.payload.error,
+      };
+    case types.RESET_NODE_QUESTIONS:
+      return {
+        ...state,
+        questions: [],
       };
     case types.TOGGLE_IS_NODE_DETAILS_VISIBLE:
       return {

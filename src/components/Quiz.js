@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { resetNodeQuestions } from "../actions/nodeDetailsActions";
 import QuizForm from "./QuizForm";
 import "../styles/Quiz.scss";
 
@@ -12,6 +13,8 @@ const Quiz = ({ questions, questionsError }) => {
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showNextButton, setShowNextButton] = useState(false);
+
+  const dispatch = useDispatch();
 
   const startQuiz = () => {
     setCurrentQuestionIndex(0);
@@ -36,6 +39,10 @@ const Quiz = ({ questions, questionsError }) => {
     setSelectedAnswer(null);
   };
 
+  const resetQuiz = () => {
+    dispatch(resetNodeQuestions());
+  };
+
   const selectChoice = (isCorrect, index) => {
     if (isCorrect) {
       setScore(score + 1);
@@ -50,14 +57,17 @@ const Quiz = ({ questions, questionsError }) => {
 
     if (currentQuestionIndex < questions.length - 1) {
       showQuestion(currentQuestionIndex + 1);
-    } else {
+    } else if (currentQuestionIndex === questions.length - 1) {
       showScore();
+    } else {
+      resetQuiz();
     }
   };
 
   const showScore = () => {
     resetState();
     setQuestionText(`You scored ${score} out of ${questions.length}!`);
+    setShowNextButton(true);
   };
 
   useEffect(() => {
@@ -105,7 +115,7 @@ const Quiz = ({ questions, questionsError }) => {
             id="next-button"
             onClick={handleNextButton}
           >
-            Next
+            {currentQuestionIndex === questions.length ? "Reset" : "Next"}
           </button>
         }
       </div>

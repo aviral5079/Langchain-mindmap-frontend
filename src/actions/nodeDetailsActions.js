@@ -106,3 +106,7 @@ export const getNodeQuestions = (num_questions) => {
     }
   };
 };
+
+export const resetNodeQuestions = () => ({
+  type: types.RESET_NODE_QUESTIONS,
+});

@@ -19,6 +19,10 @@ export const toggleIsChatbarVisible = () => ({
   type: types.TOGGLE_IS_CHATBAR_VISIBLE,
 });
 
+export const resetChats = () => ({
+  type: types.RESET_CHATS,
+});
+
 export const getMessageResponse = (message) => {
   return async (dispatch) => {
     try {
