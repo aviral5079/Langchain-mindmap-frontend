@@ -46,6 +46,10 @@ const fetchNodeQuestionsFailure = (error) => ({
   payload: { error },
 });
 
+export const toggleIsNodeDetailsVisible = () => ({
+  type: types.TOGGLE_IS_NODE_DETAILS_VISIBLE,
+});
+
 export const getNodeContent = (nodeId) => {
   return async (dispatch, getState) => {
     try {

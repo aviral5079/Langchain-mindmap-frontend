@@ -10,6 +10,7 @@ const initialState = {
   questions: [],
   areQuestionsLoading: false,
   questionsError: null,
+  isNodeDetailsVisible: true,
 };
 
 const nodeDetailsReducer = (state = initialState, action) => {
@@ -74,6 +75,11 @@ const nodeDetailsReducer = (state = initialState, action) => {
         areQuestionsLoading: false,
         questions: [],
         questionsError: action.payload.error,
+      };
+    case types.TOGGLE_IS_NODE_DETAILS_VISIBLE:
+      return {
+        ...state,
+        isNodeDetailsVisible: !state.isNodeDetailsVisible,
       };
     default:
       return state;

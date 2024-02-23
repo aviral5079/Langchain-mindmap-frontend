@@ -8,6 +8,10 @@ export const setCurrentDocument = (document) => ({
   payload: document,
 });
 
+export const toggleIsDocumentVisible = () => ({
+  type: types.TOGGLE_IS_DOCUMENT_VISIBLE,
+});
+
 export const uploadDocument = (file) => {
   return async (dispatch) => {
     try {

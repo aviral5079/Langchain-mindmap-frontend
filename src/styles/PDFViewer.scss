@@ -6,6 +6,7 @@
   align-items: center;
   height: 100%;
   background-color: $background-color;
+  flex: 1;
 }
 
 .not-available h1 {
@@ -19,7 +20,7 @@
 
 .pdf-container {
   height: 100%;
-  width: 75%;
+  flex: 1;
 }
 
 iframe {

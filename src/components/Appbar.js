@@ -1,9 +1,14 @@
 import React from "react";
+import { connect, useDispatch } from "react-redux";
+import { toggleIsMindmapVisible } from "../actions/mindmapActions";
+import { toggleIsChatbarVisible } from "../actions/chatsActions";
+import { toggleIsDocumentVisible } from "../actions/currentDocumentActions";
 import FileButton from "./FileButton";
 import "../styles/Appbar.scss";
 import logoImage from "../assets/images/logo.png";
 
-const Appbar = () => {
+const Appbar = ({ isDocumentVisible, isMindmapVisible, isChatbarVisible }) => {
+  const dispatch = useDispatch();
   return (
     <div className="appbar">
       <div className="left-section">
@@ -14,12 +19,41 @@ const Appbar = () => {
         <h1 className="app-name">DocMind AI</h1>
       </div>
       <div className="right-section">
-        <button className="nav-button">PDF</button>
-        <button className="nav-button">Mindmap</button>
-        <button className="nav-button">Chat</button>
+        <button
+          className={`nav-button ${isDocumentVisible ? "visible" : ""}`}
+          onClick={() => {
+            dispatch(toggleIsDocumentVisible());
+            dispatch(toggleIsMindmapVisible());
+          }}
+        >
+          PDF
+        </button>
+        <button
+          className={`nav-button ${isMindmapVisible ? "visible" : ""}`}
+          onClick={() => {
+            dispatch(toggleIsMindmapVisible());
+            dispatch(toggleIsDocumentVisible());
+          }}
+        >
+          Mindmap
+        </button>
+        <button
+          className={`nav-button ${isChatbarVisible ? "visible" : ""}`}
+          onClick={() => {
+            dispatch(toggleIsChatbarVisible());
+          }}
+        >
+          Chat
+        </button>
       </div>
     </div>
   );
 };
 
-export default Appbar;
+const mapStateToProps = (state) => ({
+  isDocumentVisible: state.currentDocument.isDocumentVisible,
+  isMindmapVisible: state.mindmap.isMindmapVisible,
+  isChatbarVisible: state.chats.isChatbarVisible,
+});
+
+export default connect(mapStateToProps)(Appbar);

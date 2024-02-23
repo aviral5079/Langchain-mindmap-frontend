@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import {
-  getVisibleNodes,
-  getVisibleEdges,
-} from "../selectors/mindmapDataSelector";
+import { connect, useDispatch } from "react-redux";
+import { Button } from "@chakra-ui/react";
 import ReactFlow, {
   useNodesState,
   useEdgesState,
@@ -14,6 +11,13 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import CustomNode from "./CustomNode";
 import NodeDetails from "./NodeDetails";
+import {
+  getVisibleNodes,
+  getVisibleEdges,
+} from "../selectors/mindmapDataSelector";
+import { toggleIsNodeDetailsVisible } from "../actions/nodeDetailsActions";
+import { BiSolidShow } from "react-icons/bi";
+import { GrFormViewHide } from "react-icons/gr";
 import "../styles/Mindmap.scss";
 
 const snapGrid = [20, 20];
@@ -28,7 +32,7 @@ const CustomNodeFlow = ({ GraphNodes, GraphEdges }) => {
   useEffect(() => {
     setNodes(GraphNodes);
     setEdges(GraphEdges);
-  }, [GraphNodes, GraphEdges]);
+  }, [GraphNodes, GraphEdges, setNodes, setEdges]);
   return (
     <ReactFlow
       nodes={nodes}
@@ -42,7 +46,7 @@ const CustomNodeFlow = ({ GraphNodes, GraphEdges }) => {
       snapGrid={snapGrid}
       attributionPosition="bottom-left"
       maxZoom={4}
-      minZoom={0.1}
+      minZoom={0.3}
     >
       <MiniMap />
       <Controls />
@@ -50,7 +54,14 @@ const CustomNodeFlow = ({ GraphNodes, GraphEdges }) => {
   );
 };
 
-const Mindmap = ({ currentDocument, GraphNodes, GraphEdges }) => {
+const Mindmap = ({
+  currentDocument,
+  GraphNodes,
+  GraphEdges,
+  isNodeDetailsVisible,
+}) => {
+  const dispatch = useDispatch();
+
   if (currentDocument) {
     return (
       <div className="container">
@@ -58,23 +69,45 @@ const Mindmap = ({ currentDocument, GraphNodes, GraphEdges }) => {
           <ReactFlowProvider>
             <CustomNodeFlow GraphNodes={GraphNodes} GraphEdges={GraphEdges} />
           </ReactFlowProvider>
+          <div className="node-details-button-container">
+            <Button
+              leftIcon={
+                isNodeDetailsVisible ? <GrFormViewHide /> : <BiSolidShow />
+              }
+              color="#3F72AF"
+              onClick={() => {
+                dispatch(toggleIsNodeDetailsVisible());
+              }}
+            >
+              {isNodeDetailsVisible ? "Hide" : "Show"}
+            </Button>
+          </div>
         </div>
-        <div className="node-details-container">
-          <NodeDetails />
-        </div>
+        {isNodeDetailsVisible && (
+          <div className="node-details-container">
+            <NodeDetails />
+          </div>
+        )}
       </div>
     );
   } else {
-    <div className="not-available">
-      <h1>UPLOAD/SELECT A DOCUMENT TO GET STARTED</h1>
-    </div>;
+    return (
+      <div className="not-available">
+        <h1>UPLOAD/SELECT A DOCUMENT TO GET STARTED</h1>
+      </div>
+    );
   }
 };
 
-const mapStateToProps = ({ currentDocument, mindmap }) => ({
+const mapStateToProps = ({ currentDocument, mindmap, nodeDetails }) => ({
   currentDocument: currentDocument.fileName,
   GraphNodes: getVisibleNodes(mindmap.nodes, mindmap.edges, mindmap.rootId),
   GraphEdges: getVisibleEdges(mindmap.nodes, mindmap.edges, mindmap.rootId),
+  isNodeDetailsVisible: nodeDetails.isNodeDetailsVisible,
 });
 
-export default connect(mapStateToProps)(Mindmap);
+const mapDispatchToProps = {
+  toggleIsNodeDetailsVisible,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Mindmap);

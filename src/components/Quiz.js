@@ -64,15 +64,13 @@ const Quiz = ({ questions, questionsError }) => {
     if (questions.length > 0) startQuiz();
   }, [questions]);
 
-  if (questions.length == 0) {
+  if (questions.length === 0) {
     return (
       <div className="quiz-form">
         <QuizForm />
       </div>
     );
   }
-
-  console.log(questions);
 
   return (
     <div className="quiz-container">

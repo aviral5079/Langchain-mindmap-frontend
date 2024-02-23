@@ -7,6 +7,7 @@ const initialState = {
   selectedNodeId: "",
   loading: false,
   error: null,
+  isMindmapVisible: false,
 };
 
 const mindmapReducer = (state = initialState, action) => {
@@ -40,6 +41,11 @@ const mindmapReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedNodeId: action.payload.selectedNodeId,
+      };
+    case types.TOGGLE_IS_MINDMAP_VISIBLE:
+      return {
+        ...state,
+        isMindmapVisible: !state.isMindmapVisible,
       };
     default:
       return state;

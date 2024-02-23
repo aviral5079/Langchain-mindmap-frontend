@@ -4,6 +4,7 @@ const initialState = {
   chats: [],
   isChatLoading: false,
   chatError: null,
+  isChatbarVisible: true,
 };
 
 const chatsReducer = (state = initialState, action) => {
@@ -26,6 +27,11 @@ const chatsReducer = (state = initialState, action) => {
         ...state,
         isChatLoading: false,
         chatError: action.payload.error,
+      };
+    case types.TOGGLE_IS_CHATBAR_VISIBLE:
+      return {
+        ...state,
+        isChatbarVisible: !state.isChatbarVisible,
       };
     default:
       return state;

@@ -33,6 +33,10 @@ export const setNodeDetails = (nodeId) => {
   };
 };
 
+export const toggleIsMindmapVisible = () => ({
+  type: types.TOGGLE_IS_MINDMAP_VISIBLE,
+});
+
 export const getMindmap = (pdf_file_id) => {
   return async (dispatch) => {
     try {

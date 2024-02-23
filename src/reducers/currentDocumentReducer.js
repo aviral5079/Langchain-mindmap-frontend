@@ -7,6 +7,7 @@ const initialState = {
   downloading: false,
   uploadingError: null,
   downloadingError: null,
+  isDocumentVisible: true,
 };
 
 const documentReducer = (state = initialState, action) => {
@@ -52,6 +53,11 @@ const documentReducer = (state = initialState, action) => {
         downloading: false,
         downloadingError: action.payload,
         fileUrl: null,
+      };
+    case types.TOGGLE_IS_DOCUMENT_VISIBLE:
+      return {
+        ...state,
+        isDocumentVisible: !state.isDocumentVisible,
       };
     default:
       return state;

@@ -19,7 +19,14 @@
 
 .mindmap-container {
   height: 100%;
-  width: 70%;
+  position: relative;
+  flex: 1;
+}
+
+.node-details-button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .container {
@@ -30,7 +37,7 @@
 
 .node-details-container {
   height: 100%;
-  flex: 1;
+  width: 25%;
 }
 
 .react-flow__node {
@@ -46,4 +53,10 @@
 .react-flow__edge-path {
   stroke: $primary-color;
   stroke-width: 4;
+}
+
+.word-cloud {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -40,8 +40,6 @@ const QuizForm = ({ areQuestionsLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Selected Option:", quizType);
-    console.log("Number of Questions:", numberOfQuestions);
     dispatch(getNodeQuestions(numberOfQuestions));
   };
 

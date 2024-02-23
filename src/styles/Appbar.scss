@@ -47,11 +47,12 @@
   transition: color 0.3s ease;
 }
 
-.nav-button:hover {
+.nav-button:hover,
+.nav-button.visible {
   color: $primary-color;
 }
 
-.nav-button.selected {
+.nav-button.visible::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -62,7 +63,6 @@
   transition: width 0.03s ease;
 }
 
-/* Media query for responsive design */
 @media screen and (max-width: 768px) {
   .app-name {
     font-size: 20px;

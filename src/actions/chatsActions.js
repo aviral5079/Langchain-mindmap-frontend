@@ -15,6 +15,10 @@ const fetchChatResponseFailure = (error) => ({
   payload: { error },
 });
 
+export const toggleIsChatbarVisible = () => ({
+  type: types.TOGGLE_IS_CHATBAR_VISIBLE,
+});
+
 export const getMessageResponse = (message) => {
   return async (dispatch) => {
     try {

@@ -60,6 +60,7 @@ export const getVisibleNodes = (GraphNodes, GraphEdges, rootId) => {
   while (queue.length) {
     const size = queue.length;
     let theta = 0;
+    if (level === 2) break;
     const thetaDiff = 360 / levelCount[level];
     for (let index = 0; index < size; index++) {
       const currentVertex = queue.shift();
@@ -113,6 +114,8 @@ export const getVisibleEdges = (nodes, edges, rootId) => {
     let t = 0;
     const td = 360 / levelCount[level];
     const size = queue.length;
+
+    if (level === 2) break;
     for (let index = 0; index < size; index++) {
       const currentVertex = queue.shift();
       adjList[currentVertex]?.forEach((neighbor) => {
