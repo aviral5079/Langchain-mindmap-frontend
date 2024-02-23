@@ -8,6 +8,7 @@ import documentsReducer from "../reducers/documentsReducer";
 import currentDocumentReducer from "../reducers/currentDocumentReducer";
 import mindmapReducer from "../reducers/mindmapReducer";
 import nodeDetailsReducer from "../reducers/nodeDetailsReducer";
+import chatsReducer from "../reducers/chatsReducer";
 
 const composeMiddleware = applyMiddleware(thunk);
 
@@ -18,6 +19,7 @@ const configureStore = () => {
       currentDocument: currentDocumentReducer,
       mindmap: mindmapReducer,
       nodeDetails: nodeDetailsReducer,
+      chats: chatsReducer,
     }),
     composeMiddleware
   );

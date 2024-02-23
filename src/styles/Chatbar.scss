@@ -1,0 +1,45 @@
+@import "constants";
+
+.chat-bar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 25%;
+}
+
+.chat-bar__header {
+  display: flex;
+}
+
+.history {
+  padding: 10px;
+  margin: 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+  flex-direction: space-between;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+.user-message,
+.chatbot-message {
+  position: relative;
+  margin: 7.5px 0 0 20px;
+  padding: 15px;
+  border-radius: 12px;
+  max-width: 90%;
+}
+
+.message {
+  padding-top: 5px;
+}
+
+.user-message {
+  background-color: $secondary-color;
+  color: $primary-color;
+}
+
+.chatbot-message {
+  background-color: $accent-color;
+  margin-bottom: 10px;
+}
