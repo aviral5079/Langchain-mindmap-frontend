@@ -128,8 +128,10 @@ export const getNodeQuestions = (num_questions, quizType) => {
         num_questions,
         quiz_type: quizType,
       });
-      const quizResponse = quiz.replace("### RESPONSE_JSON", "");
-      const questionsJSON = JSON.parse(quizResponse);
+
+      // console.log(quiz);
+      // const quizResponse = quiz.replace("### RESPONSE_JSON", "");
+      const questionsJSON = JSON.parse(quiz);
       // console.log(questionsJSON);
       let questions = [];
       Object.keys(questionsJSON).forEach((key) => {

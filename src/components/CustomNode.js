@@ -66,7 +66,7 @@ const CustomNode = ({
           }}
         >
           <Heading as="h4" size="lg" color="#23272a" textAlign="center">
-            {data.label}
+            {data.label.substr(0, 50)}
           </Heading>
         </div>
         {expand ? (
