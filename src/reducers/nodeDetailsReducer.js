@@ -10,6 +10,9 @@ const initialState = {
   questions: [],
   areQuestionsLoading: false,
   questionsError: null,
+  wordCloud: [],
+  isWordCloudLoading: false,
+  wordCloudError: null,
   isNodeDetailsVisible: true,
 };
 
@@ -79,6 +82,26 @@ const nodeDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         questions: [],
+      };
+    case types.FETCH_WORD_CLOUD_REQUEST:
+      return {
+        ...state,
+        isWordCloudLoading: true,
+        wordCloudError: null,
+      };
+    case types.FETCH_WORD_CLOUD_SUCCESS:
+      return {
+        ...state,
+        isWordCloudLoading: false,
+        wordCloud: action.payload.wordCloud,
+        wordCloudError: null,
+      };
+    case types.FETCH_WORD_CLOUD_FAILURE:
+      return {
+        ...state,
+        isWordCloudLoading: false,
+        wordCloud: [],
+        wordCloudError: action.payload.error,
       };
     case types.TOGGLE_IS_NODE_DETAILS_VISIBLE:
       return {

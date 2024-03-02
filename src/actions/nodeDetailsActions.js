@@ -32,6 +32,22 @@ const fetchNodeSummaryFailure = (error) => ({
   payload: { error },
 });
 
+const fetchWordCloudRequest = () => ({
+  type: types.FETCH_WORD_CLOUD_REQUEST,
+});
+
+const fetchWordCloudSuccess = (wordCloud) => {
+  return {
+    type: types.FETCH_WORD_CLOUD_SUCCESS,
+    payload: { wordCloud },
+  };
+};
+
+const fetchWordCloudFailure = (error) => ({
+  type: types.FETCH_WORD_CLOUD_FAILURE,
+  payload: { error },
+});
+
 const fetchNodeQuestionsRequest = () => ({
   type: types.FETCH_NODE_QUESTIONS_REQUEST,
 });
@@ -81,7 +97,26 @@ export const getNodeSummary = (node_id) => {
   };
 };
 
-export const getNodeQuestions = (num_questions) => {
+export const getWordCloud = (node_id) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(fetchWordCloudRequest());
+      const { fileName } = getState().currentDocument;
+      const response = await get("wordGlossary", {
+        pdf_file_id: fileName,
+        node_id,
+      });
+
+      const wordCloud = JSON.parse(response);
+      dispatch(fetchWordCloudSuccess(wordCloud));
+    } catch (err) {
+      console.log(err);
+      dispatch(fetchWordCloudFailure(err));
+    }
+  };
+};
+
+export const getNodeQuestions = (num_questions, quizType) => {
   return async (dispatch, getState) => {
     try {
       dispatch(fetchNodeQuestionsRequest());
@@ -91,6 +126,7 @@ export const getNodeQuestions = (num_questions) => {
         pdf_file_id: fileName,
         node_id: selectedNodeId,
         num_questions,
+        quiz_type: quizType,
       });
       const quizResponse = quiz.replace("### RESPONSE_JSON", "");
       const questionsJSON = JSON.parse(quizResponse);

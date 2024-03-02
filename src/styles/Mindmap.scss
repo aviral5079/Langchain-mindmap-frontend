@@ -1,32 +1,11 @@
 @import "constants";
 
-.not-available {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: $background-color;
-  border: 1px solid $secondary-color;
-  border-radius: 5px;
-  margin: 5px 2.5px 10px 5px;
-}
-
-.not-available h1 {
-  font-size: 30px;
-  font-family: $heading-font;
-  text-align: center;
-  font-weight: 700;
-  color: $heading-color;
-  overflow: hidden;
-}
-
 .mindmap-container {
   height: 100%;
   position: relative;
   flex: 1;
   border: 1px solid $secondary-color;
   border-radius: 5px;
-  margin: 5px 2.5px 10px 5px;
 }
 
 .node-details-button-container {
@@ -46,7 +25,8 @@
   width: 25%;
   border: 1px solid $secondary-color;
   border-radius: 5px;
-  margin: 5px 5px 10px 2.5px;
+  margin-right: 2.5px;
+  margin-left: 2.5px;
 }
 
 .react-flow__node {
@@ -57,6 +37,7 @@
 
 .react-flow__node.selected {
   border: 4px solid $secondary-color;
+  background-color: $primary-color;
 }
 
 .react-flow__edge-path {
@@ -68,4 +49,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.word-cloud svg {
+  padding: 20px;
+  width: 90%;
+  height: 90%;
 }

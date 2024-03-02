@@ -9,12 +9,12 @@ const ChatInput = ({ currentDocument, getMessageResponse }) => {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
 
-  const getResponse = (e) => {
+  const getResponse = async (e) => {
     e.preventDefault();
     if (message.trim() !== "") {
       try {
         setMessage("");
-        dispatch(getMessageResponse(message));
+        await dispatch(getMessageResponse(message));
       } catch (err) {
         console.error("Error getting response:", err);
       }

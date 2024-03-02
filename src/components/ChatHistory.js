@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { Stack, Avatar, Icon } from "@chakra-ui/react";
 import { GoDependabot } from "react-icons/go";
+import { FaRegUser } from "react-icons/fa";
 
 const ChatHistory = ({ chats }) => {
   const scrollContainerRef = useRef();
@@ -20,7 +21,7 @@ const ChatHistory = ({ chats }) => {
               <Avatar
                 size="sm"
                 bg="#485550"
-                icon={<Icon as={GoDependabot} color="#c0eb6a" />}
+                icon={<Icon as={FaRegUser} color="#c0eb6a" />}
               />
               <span className="message">{message.message}</span>
             </Stack>

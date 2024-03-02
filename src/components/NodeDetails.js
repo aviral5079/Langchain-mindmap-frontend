@@ -19,20 +19,23 @@ import Quiz from "./Quiz.js";
 import WordCloud from "./WordCloud.js";
 
 const NodeDetails = ({
+  nodeTitle,
   content,
   isContentLoading,
   contentError,
   summary,
   isSummaryLoading,
   summaryError,
+  isWordCloudLoading,
+  wordCloudError,
 }) => {
   return (
     <Tabs isFitted variant="enclosed" defaultIndex={1}>
       <TabList>
         <Tab>Content</Tab>
-        <Tab>Words</Tab>
         <Tab>Summary</Tab>
         <Tab>Quiz</Tab>
+        <Tab>Words</Tab>
       </TabList>
 
       <TabPanels>
@@ -63,16 +66,18 @@ const NodeDetails = ({
           )}
         </TabPanel>
         <TabPanel>
-          <WordCloud />
-        </TabPanel>
-        <TabPanel>
           {isSummaryLoading && (
             <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
           )}
           {!isSummaryLoading && (
             <Card>
               <CardHeader paddingBottom="0">
-                <Heading size="md">Summary</Heading>
+                <Heading size="md" mb={4} textAlign="center">
+                  {nodeTitle}
+                </Heading>
+                <Heading size="md" textAlign="center">
+                  Summary
+                </Heading>
               </CardHeader>
 
               <CardBody>
@@ -86,19 +91,28 @@ const NodeDetails = ({
         <TabPanel>
           <Quiz />
         </TabPanel>
+        <TabPanel>
+          {isWordCloudLoading && (
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          )}
+          {!isWordCloudLoading && <WordCloud />}
+        </TabPanel>
       </TabPanels>
     </Tabs>
   );
 };
 
-const mapStateToProps = ({ nodeDetails }) => {
+const mapStateToProps = ({ nodeDetails, mindmap }) => {
   return {
+    nodeTitle: mindmap.nodes[mindmap.selectedNodeId]?.data?.title,
     content: nodeDetails.content,
     isContentLoading: nodeDetails.isContentLoading,
     contentError: nodeDetails.contentError,
     summary: nodeDetails.summary,
     isSummaryLoading: nodeDetails.isSummaryLoading,
     summaryError: nodeDetails.summaryError,
+    isWordCloudLoading: nodeDetails.isWordCloudLoading,
+    wordCloudError: nodeDetails.wordCloudError,
   };
 };
 

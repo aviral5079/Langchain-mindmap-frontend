@@ -9,7 +9,7 @@ const DocumentList = ({
 }) => {
   return (
     <div className="doc-list">
-      <h1>Documents</h1>
+      <h1 className="doc-list__title">Documents</h1>
       {Object.keys(documents).map((documentName) => {
         return (
           <li

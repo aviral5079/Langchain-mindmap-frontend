@@ -15,8 +15,8 @@ import {
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { quizOptions } from "../constants/quizOptions";
 
-const QuizForm = ({ areQuestionsLoading }) => {
-  const [quizType, setQuizType] = useState("multiple-choice");
+const QuizForm = ({ areQuestionsLoading, nodeTitle }) => {
+  const [quizType, setQuizType] = useState("tf");
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
 
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const QuizForm = ({ areQuestionsLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(getNodeQuestions(numberOfQuestions));
+    dispatch(getNodeQuestions(numberOfQuestions, quizType));
   };
 
   return (
@@ -53,7 +53,10 @@ const QuizForm = ({ areQuestionsLoading }) => {
         maxWidth="600px"
         width="100%"
       >
-        <Heading as="h2" size="md" mb={4} textAlign="center">
+        <Heading size="md" textAlign="center">
+          {nodeTitle}
+        </Heading>
+        <Heading size="md" mb={4} textAlign="center">
           Quiz Generator
         </Heading>
         <form onSubmit={handleSubmit}>
@@ -99,7 +102,6 @@ const QuizForm = ({ areQuestionsLoading }) => {
           <Flex justifyContent="center">
             <Button
               mt={4}
-              bgColor="#c0eb6a"
               type="submit"
               width="80%"
               isLoading={areQuestionsLoading}
@@ -114,9 +116,12 @@ const QuizForm = ({ areQuestionsLoading }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  areQuestionsLoading: state.nodeDetails.areQuestionsLoading,
-});
+const mapStateToProps = (state) => {
+  return {
+    areQuestionsLoading: state.nodeDetails.areQuestionsLoading,
+    nodeTitle: state.mindmap.nodes[state.mindmap.selectedNodeId]?.data?.title,
+  };
+};
 
 const mapDispatchToProps = {
   getNodeQuestions,

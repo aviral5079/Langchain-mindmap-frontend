@@ -16,7 +16,10 @@ const Appbar = ({ isDocumentVisible, isMindmapVisible, isChatbarVisible }) => {
       </div>
       <div className="middle-section">
         <img className="app-logo" src={logoImage} alt="logo" />
-        <h1 className="app-name">DocMind AI</h1>
+        <h1 className="app-name">
+          <span className="app-name__letter">V</span>
+          <span className="app-name__rest">READ</span>
+        </h1>
       </div>
       <div className="right-section">
         <button

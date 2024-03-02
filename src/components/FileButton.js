@@ -39,9 +39,12 @@ const FileButton = () => {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>
-            <h2>DocMind GenAI</h2>
+          <DrawerHeader className="file-button__header">
+            <h2>
+              <span className="app-name__letter">V</span>
+              <span className="app-name__rest">READ</span>
+            </h2>
+            <DrawerCloseButton size="lg" className="file-button__close" />
           </DrawerHeader>
 
           <DrawerBody display="flex" flexDirection="column">

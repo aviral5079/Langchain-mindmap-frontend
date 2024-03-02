@@ -99,6 +99,8 @@ const Quiz = ({ questions, questionsError }) => {
                   ? selectedAnswer === correctAnswer
                     ? "correct"
                     : "incorrect"
+                  : selectedAnswer && correctAnswer === key
+                  ? "correct-answer"
                   : ""
               }`}
               onClick={() => selectChoice(key === correctAnswer, key)}
@@ -115,7 +117,11 @@ const Quiz = ({ questions, questionsError }) => {
             id="next-button"
             onClick={handleNextButton}
           >
-            {currentQuestionIndex === questions.length ? "Reset" : "Next"}
+            {currentQuestionIndex === questions.length
+              ? "Reset"
+              : currentQuestionIndex === questions.length - 1
+              ? "Get Score"
+              : "Next"}
           </button>
         }
       </div>

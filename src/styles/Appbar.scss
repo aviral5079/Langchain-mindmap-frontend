@@ -21,8 +21,15 @@
 .app-name {
   font-size: 1.5rem;
   font-weight: bold;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
+}
+
+.app-name__letter {
   color: $primary-color;
+}
+
+.app-name__rest {
+  color: $accent-color;
 }
 
 .app-logo {

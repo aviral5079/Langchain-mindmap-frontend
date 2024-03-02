@@ -1,6 +1,6 @@
 export const quizOptions = {
-  "multiple-choice": "Multiple Choice",
-  "multiple-anwers": "Multiple Anwers",
-  "one-word": "One word",
-  "true-false": "True/False",
+  tf: "Level 1 - True/False",
+  oneword: "Level 2 - One word",
+  mcq: "Level 3 - Multiple Choice",
+  maq: "Level 4 - Multiple Anwers",
 };

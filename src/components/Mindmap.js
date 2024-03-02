@@ -25,23 +25,31 @@ const nodeTypes = {
   customNode: CustomNode,
 };
 
-const CustomNodeFlow = ({ GraphNodes, GraphEdges }) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+const CustomNodeFlow = ({ GraphNodes, GraphEdges, selectedNodeId }) => {
+  const [nodes, setNodes] = useNodesState(GraphNodes);
+  const [edges, setEdges] = useEdgesState(GraphEdges);
 
   useEffect(() => {
     setNodes(GraphNodes);
     setEdges(GraphEdges);
-  }, [GraphNodes, GraphEdges, setNodes, setEdges]);
+  }, [GraphNodes, GraphEdges]);
+
+  useEffect(() => {
+    const updatedNodes = GraphNodes.map((node) => ({
+      ...node,
+      selected: node.id === selectedNodeId,
+    }));
+    setNodes(updatedNodes);
+  }, [GraphNodes, selectedNodeId]);
+
   return (
     <ReactFlow
       nodes={nodes}
       edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
       style={{ background: "#F9F7F7" }}
       nodeTypes={nodeTypes}
       snapToGrid={true}
+      fitView
       defaultViewport={{ x: 400, y: 390, zoom: 0.3 }}
       snapGrid={snapGrid}
       attributionPosition="bottom-left"
@@ -58,6 +66,7 @@ const Mindmap = ({
   currentDocument,
   GraphNodes,
   GraphEdges,
+  selectedNodeId,
   isNodeDetailsVisible,
 }) => {
   const dispatch = useDispatch();
@@ -67,7 +76,11 @@ const Mindmap = ({
       <div className="container">
         <div className="mindmap-container">
           <ReactFlowProvider>
-            <CustomNodeFlow GraphNodes={GraphNodes} GraphEdges={GraphEdges} />
+            <CustomNodeFlow
+              GraphNodes={GraphNodes}
+              GraphEdges={GraphEdges}
+              selectedNodeId={selectedNodeId}
+            />
           </ReactFlowProvider>
           <div className="node-details-button-container">
             <Button
@@ -103,6 +116,7 @@ const mapStateToProps = ({ currentDocument, mindmap, nodeDetails }) => ({
   currentDocument: currentDocument.fileName,
   GraphNodes: getVisibleNodes(mindmap.nodes, mindmap.edges, mindmap.rootId),
   GraphEdges: getVisibleEdges(mindmap.nodes, mindmap.edges, mindmap.rootId),
+  selectedNodeId: mindmap.selectedNodeId,
   isNodeDetailsVisible: nodeDetails.isNodeDetailsVisible,
 });
 

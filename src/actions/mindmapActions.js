@@ -1,6 +1,10 @@
 import * as types from "../constants/actionTypes";
 import { get } from "../services/api";
-import { getNodeContent, getNodeSummary } from "./nodeDetailsActions";
+import {
+  getNodeContent,
+  getNodeSummary,
+  getWordCloud,
+} from "./nodeDetailsActions";
 
 const fetchMindmapRequest = () => ({
   type: types.FETCH_MINDMAP_REQUEST,
@@ -30,6 +34,7 @@ export const setNodeDetails = (nodeId) => {
   return async (dispatch) => {
     dispatch(getNodeContent(nodeId));
     dispatch(getNodeSummary(nodeId));
+    dispatch(getWordCloud(nodeId));
   };
 };
 
@@ -51,6 +56,7 @@ export const getMindmap = (pdf_file_id) => {
       dispatch(setSelectedNode(rootId));
       dispatch(getNodeContent(rootId));
       dispatch(getNodeSummary(rootId));
+      dispatch(getWordCloud(rootId));
     } catch (err) {
       dispatch(fetchMindmapFailure(err));
     }
