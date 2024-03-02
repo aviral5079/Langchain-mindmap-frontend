@@ -16,21 +16,16 @@ const Quiz = ({ questions, questionsError }) => {
 
   const dispatch = useDispatch();
 
-  // console.log(questions);
-
   const startQuiz = () => {
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setShowNextButton(false);
-    showQuestion(0);
-
     if (Object.keys(questions[0].options).length == 2) {
       for (let i = 0; i < questions.length; i++) {
         questions[i].correct = questions[i].correct === "True" ? "a" : "b";
       }
-
-      console.log(questions);
     }
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setShowNextButton(false);
+    showQuestion(0);
   };
 
   const showQuestion = (index) => {
