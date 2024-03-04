@@ -16,7 +16,6 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
   const [showCheckButton, setShowCheckButton] = useState(false);
 
   const dispatch = useDispatch();
-<<<<<<< HEAD
   const startQuiz = () => {
     if (nodeQuestionsType !== "oneword")
       if (Object.keys(questions[0].options).length === 2) {
@@ -28,18 +27,6 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
     setScore(0);
     setShowNextButton(false);
     setShowCheckButton(false);
-=======
-
-  const startQuiz = () => {
-    if (Object.keys(questions[0].options).length == 2) {
-      for (let i = 0; i < questions.length; i++) {
-        questions[i].correct = questions[i].correct === "True" ? "a" : "b";
-      }
-    }
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setShowNextButton(false);
->>>>>>> 570770fc5d120965aafddb41806940091ae2b02b
     showQuestion(0);
   };
 
