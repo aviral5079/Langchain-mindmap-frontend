@@ -12,7 +12,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import "../styles/FileButton.scss";
 
 const FileButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

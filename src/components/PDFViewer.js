@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BASE_URL } from "../constants/baseURL";
-import "../styles/PDFViewer.scss";
 
 const PDFViewer = ({ currentDocument }) => {
   if (currentDocument.fileName !== null) {

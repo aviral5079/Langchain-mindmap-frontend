@@ -105,3 +105,29 @@ column-reversecolumn-reverse .btn:hover:not([disabled]) {
 .incorrect {
   background: #ff9393;
 }
+
+.oneword-input-fields {
+  border: 0;
+  padding: 10px;
+  margin: 15px auto 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.oneword-input-fields * {
+  margin-bottom: 10px;
+}
+
+.correct-input {
+  border: 2px solid #4caf50;
+  background-color: #e8f5e9;
+  box-shadow: 0 0 5px #4caf5080;
+}
+
+.incorrect-input {
+  border: 2px solid #f44336;
+  background-color: #ffebee;
+  box-shadow: 0 0 5px #f4433680;
+}

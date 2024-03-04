@@ -13,7 +13,6 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { BiExpandAlt, BiCollapseAlt } from "react-icons/bi";
-import "../styles/CustomNode.scss";
 
 const handleStyle = {
   borderRadius: "4px",
@@ -66,7 +65,7 @@ const CustomNode = ({
           }}
         >
           <Heading as="h4" size="lg" color="#23272a" textAlign="center">
-            {data.label.substr(0, 50)}
+            {data.label.length > 50 ? data.label.substr(0, 50) : data.label}
           </Heading>
         </div>
         {expand ? (

@@ -4,7 +4,6 @@ import ChatHistory from "./ChatHistory";
 import ChatInput from "./ChatInput";
 import { toggleIsChatbarVisible } from "../actions/chatsActions";
 import { Spacer, Text, CloseButton } from "@chakra-ui/react";
-import "../styles/Chatbar.scss";
 
 const Chatbar = ({ currentDocument }) => {
   const dispatch = useDispatch();

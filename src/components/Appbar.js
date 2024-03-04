@@ -4,7 +4,6 @@ import { toggleIsMindmapVisible } from "../actions/mindmapActions";
 import { toggleIsChatbarVisible } from "../actions/chatsActions";
 import { toggleIsDocumentVisible } from "../actions/currentDocumentActions";
 import FileButton from "./FileButton";
-import "../styles/Appbar.scss";
 import logoImage from "../assets/images/logo.png";
 
 const Appbar = ({ isDocumentVisible, isMindmapVisible, isChatbarVisible }) => {

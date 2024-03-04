@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { resetNodeQuestions } from "../actions/nodeDetailsActions";
+import { Input } from "@chakra-ui/react";
 import QuizForm from "./QuizForm";
-import "../styles/Quiz.scss";
 
 const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -16,13 +16,13 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
   const [showCheckButton, setShowCheckButton] = useState(false);
 
   const dispatch = useDispatch();
-
   const startQuiz = () => {
-    if (Object.keys(questions[0].options).length === 2) {
-      for (let i = 0; i < questions.length; i++) {
-        questions[i].correct = questions[i].correct === "True" ? "a" : "b";
+    if (nodeQuestionsType !== "oneword")
+      if (Object.keys(questions[0].options).length === 2) {
+        for (let i = 0; i < questions.length; i++) {
+          questions[i].correct = questions[i].correct === "True" ? "a" : "b";
+        }
       }
-    }
     setCurrentQuestionIndex(0);
     setScore(0);
     setShowNextButton(false);
@@ -72,6 +72,15 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
   };
 
   const calculateScore = (selectedAnswer, correctAnswer) => {
+    const tempSelectedAnswer = selectedAnswer.toLowerCase().trim();
+    if (nodeQuestionsType === "oneword") {
+      if (tempSelectedAnswer === correctAnswer.toLowerCase().trim()) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
     const len1 = selectedAnswer.length;
     const len2 = correctAnswer.length;
     let x = 0,
@@ -143,33 +152,79 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
       </div>
       <div className="quiz">
         <h2 id="question">{questionText}</h2>
-        <div id="answer-buttons">
-          {Object.keys(choices).map((key) => (
-            <button
-              key={key}
-              className={`btn ${
-                !showCheckButton && showNextButton
-                  ? selectedAnswer.includes(key) && correctAnswer.includes(key)
-                    ? "correct selected"
-                    : correctAnswer.includes(key)
-                    ? "correct"
-                    : selectedAnswer.includes(key)
-                    ? "incorrect selected"
+        {nodeQuestionsType === "oneword" ? (
+          currentQuestionIndex <= questions.length - 1 ? (
+            <div className="oneword-input-fields">
+              <div className="input-answer-field">
+                <Input
+                  className={`${
+                    !showCheckButton && showNextButton
+                      ? selectedAnswer === correctAnswer
+                        ? "correct-input"
+                        : "incorrect-input"
+                      : ""
+                  }`}
+                  pr="4.5rem"
+                  type="text"
+                  placeholder="write one word answer"
+                  disabled={!showNextButton ? false : true}
+                  value={selectedAnswer}
+                  onChange={(e) => {
+                    setSelectedAnswer(e.target.value);
+                    if (e.target.value.length > 0) {
+                      setShowCheckButton(true);
+                    } else {
+                      setShowCheckButton(false);
+                    }
+                  }}
+                />
+              </div>
+              {!showCheckButton && showNextButton ? (
+                <div className="correct-answer-field">
+                  <Input
+                    pr="4.5rem"
+                    type="text"
+                    disabled={true}
+                    value={correctAnswer}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          ) : (
+            ""
+          )
+        ) : (
+          <div id="answer-buttons">
+            {Object.keys(choices).map((key) => (
+              <button
+                key={key}
+                className={`btn ${
+                  !showCheckButton && showNextButton
+                    ? selectedAnswer.includes(key) &&
+                      correctAnswer.includes(key)
+                      ? "correct selected"
+                      : correctAnswer.includes(key)
+                      ? "correct"
+                      : selectedAnswer.includes(key)
+                      ? "incorrect selected"
+                      : ""
+                    : showCheckButton && !showNextButton
+                    ? selectedAnswer.includes(key)
+                      ? "selected"
+                      : ""
                     : ""
-                  : showCheckButton && !showNextButton
-                  ? selectedAnswer.includes(key)
-                    ? "selected"
-                    : ""
-                  : ""
-              }`}
-              onClick={() => selectChoice(key)}
-              aria-label={choices[key]}
-              disabled={!showNextButton ? false : true}
-            >
-              {choices[key]}
-            </button>
-          ))}
-        </div>
+                }`}
+                onClick={() => selectChoice(key)}
+                aria-label={choices[key]}
+                disabled={!showNextButton ? false : true}
+              >
+                {choices[key]}
+              </button>
+            ))}
+          </div>
+        )}
         {currentQuestionIndex !== questions.length ? (
           <button
             disabled={showCheckButton ? false : true}
