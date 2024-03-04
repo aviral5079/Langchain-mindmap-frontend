@@ -52,9 +52,9 @@ const fetchNodeQuestionsRequest = () => ({
   type: types.FETCH_NODE_QUESTIONS_REQUEST,
 });
 
-const fetchNodeQuestionsSuccess = (questions) => ({
+const fetchNodeQuestionsSuccess = ({ quizType, questions }) => ({
   type: types.FETCH_NODE_QUESTIONS_SUCCESS,
-  payload: { questions },
+  payload: { quizType, questions },
 });
 
 const fetchNodeQuestionsFailure = (error) => ({
@@ -137,7 +137,7 @@ export const getNodeQuestions = (num_questions, quizType) => {
       Object.keys(questionsJSON).forEach((key) => {
         questions.push(questionsJSON[key]);
       });
-      dispatch(fetchNodeQuestionsSuccess(questions));
+      dispatch(fetchNodeQuestionsSuccess({ quizType, questions }));
     } catch (err) {
       console.log(err);
       dispatch(fetchNodeQuestionsFailure(err));

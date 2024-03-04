@@ -69,12 +69,14 @@ column-reversecolumn-reverse .btn:hover:not([disabled]) {
   cursor: no-drop;
 }
 
-#next-button:disabled {
+#next-button:disabled,
+#check-button:disabled {
   background: #bfc2c8;
   cursor: no-drop;
 }
 
-#next-button {
+#next-button,
+#check-button {
   background: $primary-color;
   color: $accent-color;
   font-weight: 500;
@@ -89,8 +91,14 @@ column-reversecolumn-reverse .btn:hover:not([disabled]) {
   align-items: center;
 }
 
-.correct,
-.correct-answer {
+.selected {
+  border: 2px solid #999;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.correct {
   background: #9aeabc;
 }
 

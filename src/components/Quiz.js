@@ -4,33 +4,30 @@ import { resetNodeQuestions } from "../actions/nodeDetailsActions";
 import QuizForm from "./QuizForm";
 import "../styles/Quiz.scss";
 
-const Quiz = ({ questions, questionsError }) => {
+const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [questionText, setQuestionText] = useState("");
   const [questionNumber, setQuestionNumber] = useState(1);
   const [choices, setChoices] = useState({});
-  const [correctAnswer, setCorrectAnswer] = useState(null);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [correctAnswer, setCorrectAnswer] = useState("");
+  const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showNextButton, setShowNextButton] = useState(false);
+  const [showCheckButton, setShowCheckButton] = useState(false);
 
   const dispatch = useDispatch();
 
-  // console.log(questions);
-
   const startQuiz = () => {
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setShowNextButton(false);
-    showQuestion(0);
-
-    if (Object.keys(questions[0].options).length == 2) {
+    if (Object.keys(questions[0].options).length === 2) {
       for (let i = 0; i < questions.length; i++) {
         questions[i].correct = questions[i].correct === "True" ? "a" : "b";
       }
-
-      console.log(questions);
     }
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setShowNextButton(false);
+    setShowCheckButton(false);
+    showQuestion(0);
   };
 
   const showQuestion = (index) => {
@@ -45,20 +42,66 @@ const Quiz = ({ questions, questionsError }) => {
 
   const resetState = () => {
     setChoices({});
-    setCorrectAnswer(null);
-    setSelectedAnswer(null);
+    setCorrectAnswer("");
+    setSelectedAnswer("");
   };
 
   const resetQuiz = () => {
     dispatch(resetNodeQuestions());
   };
 
-  const selectChoice = (isCorrect, index) => {
-    if (isCorrect) {
-      setScore(score + 1);
+  const selectChoice = (option) => {
+    let tempSelectedAnswer = selectedAnswer;
+    if (nodeQuestionsType === "mcq" || nodeQuestionsType === "tf") {
+      tempSelectedAnswer = option;
+    } else if (nodeQuestionsType === "maq") {
+      if (selectedAnswer.includes(option)) {
+        tempSelectedAnswer = tempSelectedAnswer.replace(option, "");
+      } else {
+        tempSelectedAnswer += option;
+        tempSelectedAnswer = tempSelectedAnswer.split("").sort().join("");
+      }
     }
-    setSelectedAnswer(index);
+
+    setSelectedAnswer(tempSelectedAnswer);
+    if (tempSelectedAnswer.length > 0) {
+      setShowCheckButton(true);
+    } else {
+      setShowCheckButton(false);
+    }
+  };
+
+  const calculateScore = (selectedAnswer, correctAnswer) => {
+    const len1 = selectedAnswer.length;
+    const len2 = correctAnswer.length;
+    let x = 0,
+      y = 0;
+    let tempScore = 0;
+    while (x < len1 && y < len2) {
+      const sOption = selectedAnswer[x];
+      const cOption = correctAnswer[y];
+
+      if (sOption === cOption) {
+        tempScore++;
+        x++;
+        y++;
+      } else if (sOption < cOption) {
+        return 0;
+      } else {
+        x++;
+      }
+
+      if (y === len2 && x < len1) return 0;
+    }
+
+    return tempScore / len2;
+  };
+
+  const handleCheckButton = () => {
+    const tempScore = calculateScore(selectedAnswer, correctAnswer);
+    setScore(score + tempScore);
     setShowNextButton(true);
+    setShowCheckButton(false);
   };
 
   const handleNextButton = () => {
@@ -105,22 +148,39 @@ const Quiz = ({ questions, questionsError }) => {
             <button
               key={key}
               className={`btn ${
-                selectedAnswer === key
-                  ? selectedAnswer === correctAnswer
+                !showCheckButton && showNextButton
+                  ? selectedAnswer.includes(key) && correctAnswer.includes(key)
+                    ? "correct selected"
+                    : correctAnswer.includes(key)
                     ? "correct"
-                    : "incorrect"
-                  : selectedAnswer && correctAnswer === key
-                  ? "correct-answer"
+                    : selectedAnswer.includes(key)
+                    ? "incorrect selected"
+                    : ""
+                  : showCheckButton && !showNextButton
+                  ? selectedAnswer.includes(key)
+                    ? "selected"
+                    : ""
                   : ""
               }`}
-              onClick={() => selectChoice(key === correctAnswer, key)}
+              onClick={() => selectChoice(key)}
               aria-label={choices[key]}
-              disabled={selectedAnswer !== null}
+              disabled={!showNextButton ? false : true}
             >
               {choices[key]}
             </button>
           ))}
         </div>
+        {currentQuestionIndex !== questions.length ? (
+          <button
+            disabled={showCheckButton ? false : true}
+            id="check-button"
+            onClick={handleCheckButton}
+          >
+            Check
+          </button>
+        ) : (
+          ""
+        )}
         {
           <button
             disabled={showNextButton ? false : true}
@@ -140,6 +200,7 @@ const Quiz = ({ questions, questionsError }) => {
 };
 
 const mapStateToProps = ({ nodeDetails }) => ({
+  nodeQuestionsType: nodeDetails.nodeQuestionsType,
   questions: nodeDetails.questions,
   questionsError: nodeDetails.questionsError,
 });

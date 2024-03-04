@@ -7,6 +7,7 @@ const initialState = {
   summary: "",
   isSummaryLoading: false,
   summaryError: null,
+  nodeQuestionsType: "",
   questions: [],
   areQuestionsLoading: false,
   questionsError: null,
@@ -68,6 +69,7 @@ const nodeDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         areQuestionsLoading: false,
+        nodeQuestionsType: action.payload.quizType,
         questions: action.payload.questions,
         questionsError: null,
       };
