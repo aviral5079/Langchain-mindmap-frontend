@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { resetNodeQuestions } from "../actions/nodeDetailsActions";
-import { Input } from "@chakra-ui/react";
+import { Input, Text } from "@chakra-ui/react";
 import QuizForm from "./QuizForm";
 
 const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
@@ -159,7 +159,8 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
                 <Input
                   className={`${
                     !showCheckButton && showNextButton
-                      ? selectedAnswer === correctAnswer
+                      ? selectedAnswer.toLowerCase().trim() ===
+                        correctAnswer.toLowerCase().trim()
                         ? "correct-input"
                         : "incorrect-input"
                       : ""
@@ -181,6 +182,7 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
               </div>
               {!showCheckButton && showNextButton ? (
                 <div className="correct-answer-field">
+                  <Text mb="8px">Correct Answer : </Text>
                   <Input
                     pr="4.5rem"
                     type="text"
@@ -204,15 +206,15 @@ const Quiz = ({ questions, nodeQuestionsType, questionsError }) => {
                   !showCheckButton && showNextButton
                     ? selectedAnswer.includes(key) &&
                       correctAnswer.includes(key)
-                      ? "correct selected"
+                      ? "correct selected-answer"
                       : correctAnswer.includes(key)
                       ? "correct"
                       : selectedAnswer.includes(key)
-                      ? "incorrect selected"
+                      ? "incorrect selected-answer"
                       : ""
                     : showCheckButton && !showNextButton
                     ? selectedAnswer.includes(key)
-                      ? "selected"
+                      ? "selected-answer"
                       : ""
                     : ""
                 }`}

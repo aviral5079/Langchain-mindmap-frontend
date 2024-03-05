@@ -91,11 +91,22 @@ column-reversecolumn-reverse .btn:hover:not([disabled]) {
   align-items: center;
 }
 
-.selected {
-  border: 2px solid #999;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  background-color: #f0f0f0;
+.selected-answer {
+  position: relative;
+  border: 3px solid #007bff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  background-color: #cce5ff;
   color: #333;
+}
+
+.selected-answer::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 45%;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent transparent #007bff;
 }
 
 .correct {
