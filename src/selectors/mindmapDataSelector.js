@@ -5,6 +5,7 @@ const parent = {};
 const createAdjacencyList = (nodes, edges) => {
   for (const key of Object.keys(nodes)) {
     adjList[key] = [];
+    parent[key] = null;
   }
 
   for (let index = 0; index < edges.length; index++) {
@@ -20,6 +21,19 @@ const setAdjacencyList = (nodes, edges) => {
   if (Object.keys(adjList).length === 0) {
     createAdjacencyList(nodes, edges);
   }
+};
+
+export const getRootIds = (GraphNodes, GraphEdges) => {
+  setAdjacencyList(GraphNodes, GraphEdges);
+
+  const rootIds = [];
+  Object.keys(parent).forEach((key) => {
+    if (parent[key] === null) {
+      rootIds.push(key);
+    }
+  });
+
+  return rootIds;
 };
 
 export const getVisibleNodes = (GraphNodes, GraphEdges, rootId) => {

@@ -5,6 +5,7 @@ import {
   getNodeSummary,
   getWordCloud,
 } from "./nodeDetailsActions";
+import { getRootIds } from "../selectors/mindmapDataSelector";
 
 const fetchMindmapRequest = () => ({
   type: types.FETCH_MINDMAP_REQUEST,
@@ -25,9 +26,14 @@ export const setSelectedNode = (nodeId) => ({
   payload: { selectedNodeId: nodeId },
 });
 
-export const setRootNode = (rootId) => ({
-  type: types.SET_ROOT_NODE_ID,
-  payload: { rootId },
+export const setRootNodeIds = (rootNodeIds) => ({
+  type: types.SET_ROOT_NODE_IDS,
+  payload: { rootNodeIds },
+});
+
+export const setCurrentRootNodeId = (currentRootNodeId) => ({
+  type: types.SET_CURRENT_ROOT_NODE_ID,
+  payload: { currentRootNodeId },
 });
 
 export const setNodeDetails = (nodeId) => {
@@ -51,12 +57,17 @@ export const getMindmap = (pdf_file_id) => {
       const mindmapResponse = await get("mindmapGraph", { pdf_file_id });
       dispatch(fetchMindmapSuccess(mindmapResponse));
 
-      const rootId = Object.keys(mindmapResponse.nodes)[0];
-      dispatch(setRootNode(rootId));
-      dispatch(setSelectedNode(rootId));
-      dispatch(getNodeContent(rootId));
-      dispatch(getNodeSummary(rootId));
-      dispatch(getWordCloud(rootId));
+      const rootNodeIds = getRootIds(
+        mindmapResponse.nodes,
+        mindmapResponse.edges
+      );
+      dispatch(setRootNodeIds(rootNodeIds));
+      const currentRootNodeId = rootNodeIds[0];
+      dispatch(setCurrentRootNodeId(currentRootNodeId));
+      dispatch(setSelectedNode(currentRootNodeId));
+      dispatch(getNodeContent(currentRootNodeId));
+      dispatch(getNodeSummary(currentRootNodeId));
+      dispatch(getWordCloud(currentRootNodeId));
     } catch (err) {
       dispatch(fetchMindmapFailure(err));
     }

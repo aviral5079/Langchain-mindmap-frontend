@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
-  setRootNode,
+  setCurrentRootNodeId,
   setSelectedNode,
   setNodeDetails,
 } from "../actions/mindmapActions";
@@ -21,10 +21,10 @@ const handleStyle = {
 };
 
 const CustomNode = ({
-  rootId,
+  currentRootNodeId,
   data,
   isConnectable,
-  setRootNode,
+  setCurrentRootNodeId,
   setSelectedNode,
   setNodeDetails,
 }) => {
@@ -65,7 +65,9 @@ const CustomNode = ({
           }}
         >
           <Heading as="h4" size="lg" color="#23272a" textAlign="center">
-            {data.label.length > 50 ? data.label.substr(0, 50) : data.label}
+            {data.label.length > 50
+              ? `${data.label.substr(0, 50)}...`
+              : data.label}
           </Heading>
         </div>
         {expand ? (
@@ -77,7 +79,7 @@ const CustomNode = ({
             onClick={() => {
               const newValue = !expand;
               setExpand(newValue);
-              setRootNode(data.parentId);
+              if (data.parentId !== null) setCurrentRootNodeId(data.parentId);
             }}
           />
         ) : (
@@ -89,14 +91,14 @@ const CustomNode = ({
             onClick={() => {
               const newValue = !expand;
               setExpand(newValue);
-              setRootNode(data.key);
+              setCurrentRootNodeId(data.key);
             }}
           />
         )}
       </div>
 
       <Handle
-        type={data.key === rootId ? "source" : "target"}
+        type={data.key === currentRootNodeId ? "source" : "target"}
         position={calcHandlePosition(data.positionAngle)}
         id="a"
         isConnectable={isConnectable}
@@ -120,11 +122,11 @@ const CustomNode = ({
 };
 
 const mapStateToProps = ({ mindmap }) => ({
-  rootId: mindmap.rootId,
+  currentRootNodeId: mindmap.currentRootNodeId,
 });
 
 const mapDispatchToProps = {
-  setRootNode,
+  setCurrentRootNodeId,
   setSelectedNode,
   setNodeDetails,
 };

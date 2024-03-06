@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Button } from "@chakra-ui/react";
+import { Button, Select } from "@chakra-ui/react";
 import ReactFlow, {
   useNodesState,
   useEdgesState,
@@ -11,6 +11,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import CustomNode from "./CustomNode";
 import NodeDetails from "./NodeDetails";
+import { setCurrentRootNodeId } from "../actions/mindmapActions";
 import {
   getVisibleNodes,
   getVisibleEdges,
@@ -67,9 +68,11 @@ const Mindmap = ({
   GraphEdges,
   selectedNodeId,
   isNodeDetailsVisible,
+  rootNodeIds,
+  currentRootNodeId,
+  setCurrentRootNodeId,
 }) => {
   const dispatch = useDispatch();
-
   if (currentDocument) {
     return (
       <div className="container">
@@ -94,6 +97,21 @@ const Mindmap = ({
               {isNodeDetailsVisible ? "Hide" : "Show"}
             </Button>
           </div>
+          <div className="root-node-selector-container">
+            <Select
+              value={currentRootNodeId}
+              onChange={(e) => {
+                const id = e.target.value;
+                dispatch(setCurrentRootNodeId(id));
+              }}
+            >
+              {rootNodeIds.map((rootId, index) => (
+                <option key={index} value={rootId}>
+                  {rootId}
+                </option>
+              ))}
+            </Select>
+          </div>
         </div>
         {isNodeDetailsVisible && (
           <div className="node-details-container">
@@ -113,14 +131,25 @@ const Mindmap = ({
 
 const mapStateToProps = ({ currentDocument, mindmap, nodeDetails }) => ({
   currentDocument: currentDocument.fileName,
-  GraphNodes: getVisibleNodes(mindmap.nodes, mindmap.edges, mindmap.rootId),
-  GraphEdges: getVisibleEdges(mindmap.nodes, mindmap.edges, mindmap.rootId),
+  GraphNodes: getVisibleNodes(
+    mindmap.nodes,
+    mindmap.edges,
+    mindmap.currentRootNodeId
+  ),
+  GraphEdges: getVisibleEdges(
+    mindmap.nodes,
+    mindmap.edges,
+    mindmap.currentRootNodeId
+  ),
+  currentRootNodeId: mindmap.currentRootNodeId,
+  rootNodeIds: mindmap.rootNodeIds,
   selectedNodeId: mindmap.selectedNodeId,
   isNodeDetailsVisible: nodeDetails.isNodeDetailsVisible,
 });
 
 const mapDispatchToProps = {
   toggleIsNodeDetailsVisible,
+  setCurrentRootNodeId,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mindmap);

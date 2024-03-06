@@ -23,7 +23,7 @@ const WordCloud = ({ words, nodeTitle }) => {
   return (
     <>
       <Heading size="md" textAlign="center">
-        {nodeTitle}
+        {nodeTitle.length > 50 ? `${nodeTitle.substr(0, 50)} ...` : nodeTitle}
       </Heading>
       <Heading size="md" mb={4} textAlign="center">
         Word Cloud

@@ -3,7 +3,8 @@ import * as types from "../constants/actionTypes";
 const initialState = {
   nodes: {},
   edges: [],
-  rootId: "",
+  rootNodeIds: [],
+  currentRootNodeId: "",
   selectedNodeId: "",
   loading: false,
   error: null,
@@ -32,10 +33,15 @@ const mindmapReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload.error,
       };
-    case types.SET_ROOT_NODE_ID:
+    case types.SET_CURRENT_ROOT_NODE_ID:
       return {
         ...state,
-        rootId: action.payload.rootId,
+        currentRootNodeId: action.payload.currentRootNodeId,
+      };
+    case types.SET_ROOT_NODE_IDS:
+      return {
+        ...state,
+        rootNodeIds: action.payload.rootNodeIds,
       };
     case types.SET_SELECTED_NODE_ID:
       return {
