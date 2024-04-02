@@ -97,7 +97,9 @@ const NodeDetails = ({
           {isWordCloudLoading && (
             <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
           )}
-          {!isWordCloudLoading && <WordCloud />}
+          {!isWordCloudLoading && (
+            <WordCloud isContentLoading={isContentLoading} content={content} />
+          )}
         </TabPanel>
       </TabPanels>
     </Tabs>
