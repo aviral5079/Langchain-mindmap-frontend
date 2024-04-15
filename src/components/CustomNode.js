@@ -65,9 +65,11 @@ const CustomNode = ({
           }}
         >
           <Heading as="h4" size="lg" color="#23272a" textAlign="center">
-            {data.label.length > 50
-              ? `${data.label.substr(0, 50)}...`
-              : data.label}
+            {data.label
+              ? data.label.length > 50
+                ? `${data.label.substr(0, 50)}...`
+                : data.label
+              : "Node"}
           </Heading>
         </div>
         {expand ? (

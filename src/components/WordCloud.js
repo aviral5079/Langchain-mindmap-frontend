@@ -45,7 +45,7 @@ const WordCloud = ({ words, nodeTitle, isContentLoading, content }) => {
         }}
       />
       <Heading size="md" textAlign="center">
-        {nodeTitle.length > 50 ? `${nodeTitle.substr(0, 50)} ...` : nodeTitle}
+        {nodeTitle ? nodeTitle.length > 50 ? `${nodeTitle.substr(0, 50)} ...` : nodeTitle : "Node"}
       </Heading>
       <Heading size="md" mb={4} textAlign="center">
         Word Cloud

@@ -26,8 +26,8 @@ const nodeTypes = {
 };
 
 const CustomNodeFlow = ({ GraphNodes, GraphEdges, selectedNodeId }) => {
-  const [nodes, setNodes] = useNodesState(GraphNodes);
-  const [edges, setEdges] = useEdgesState(GraphEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(GraphNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(GraphEdges);
 
   useEffect(() => {
     setNodes(GraphNodes);
@@ -46,6 +46,8 @@ const CustomNodeFlow = ({ GraphNodes, GraphEdges, selectedNodeId }) => {
     <ReactFlow
       nodes={nodes}
       edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
       style={{ background: "#F9F7F7" }}
       nodeTypes={nodeTypes}
       snapToGrid={true}
@@ -54,7 +56,7 @@ const CustomNodeFlow = ({ GraphNodes, GraphEdges, selectedNodeId }) => {
       snapGrid={snapGrid}
       attributionPosition="bottom-left"
       maxZoom={4}
-      minZoom={0.3}
+      minZoom={0.1}
     >
       <MiniMap />
       <Controls />

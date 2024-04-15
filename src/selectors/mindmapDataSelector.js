@@ -3,6 +3,7 @@ let levelCount = [];
 const parent = {};
 
 const createAdjacencyList = (nodes, edges) => {
+  // console.log(nodes, edges);
   for (const key of Object.keys(nodes)) {
     adjList[key] = [];
     parent[key] = null;
@@ -15,6 +16,7 @@ const createAdjacencyList = (nodes, edges) => {
       parent[child_id] = parent_id;
     }
   }
+  console.log(adjList);
 };
 
 const setAdjacencyList = (nodes, edges) => {
@@ -88,7 +90,8 @@ export const getVisibleNodes = (GraphNodes, GraphEdges, rootId) => {
           type: "customNode",
           position: position,
           data: {
-            label: GraphNodes[currentVertex]?.data?.title,
+            label:
+              GraphNodes[currentVertex]?.data?.title /* `${level} ${theta}` */,
             key: currentVertex,
             position: position,
             positionAngle: theta,
@@ -156,7 +159,12 @@ export const getVisibleEdges = (nodes, edges, rootId) => {
 
 const helper = (GraphNodes, id, visited, content) => {
   visited[id] = true;
-  if (GraphNodes[id]?.data?.title) {
+  if (GraphNodes[id]?.data?.text.length > 0) {
+    const temp = {
+      text: GraphNodes[id]?.data?.text || `Default Text: ${id}`,
+    };
+    content?.push(temp);
+  } else {
     const temp = {
       title: GraphNodes[id]?.data?.title || `Default Title ${id}`,
     };
@@ -166,11 +174,6 @@ const helper = (GraphNodes, id, visited, content) => {
         helper(GraphNodes, neighbor, visited, content);
       }
     });
-  } else {
-    const temp = {
-      text: GraphNodes[id]?.data?.text || `Default Text: ${id}`,
-    };
-    content?.push(temp);
   }
 };
 

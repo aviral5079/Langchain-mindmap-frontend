@@ -73,9 +73,11 @@ const NodeDetails = ({
             <Card>
               <CardHeader paddingBottom="0">
                 <Heading size="md" mb={4} textAlign="center">
-                  {nodeTitle.length > 50
-                    ? `${nodeTitle.substr(0, 50)} ...`
-                    : nodeTitle}
+                  {nodeTitle
+                    ? nodeTitle.length > 50
+                      ? `${nodeTitle.substr(0, 50)} ...`
+                      : nodeTitle
+                    : "Node"}
                 </Heading>
                 <Heading size="md" textAlign="center">
                   Summary

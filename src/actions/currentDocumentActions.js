@@ -19,7 +19,16 @@ export const uploadDocument = (file) => {
     try {
       dispatch({ type: types.UPLOAD_DOCUMENT_REQUEST });
       // perform API call to upload the document
-      const response = await post("upload/pdf", file, { user_id: "Aviral" });
+
+      const user_id = "Aviral";
+      const page_numbers = [5, 10, 15, 21];
+
+      // Construct the URL without square brackets
+      let url = "uploadManual/pdf/?user_id=" + user_id;
+      page_numbers.forEach((page_number, index) => {
+        url += "&page_numbers=" + page_number;
+      });
+      const response = await post(url, file);
       // dispatch success action if needed
       dispatch({ type: types.UPLOAD_DOCUMENT_SUCCESS, payload: response });
 
