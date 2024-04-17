@@ -1,9 +1,11 @@
-const adjList = {};
+let adjList = {};
 let levelCount = [];
-const parent = {};
+let parent = {};
 
-const createAdjacencyList = (nodes, edges) => {
+export const createAdjacencyList = (nodes, edges) => {
   // console.log(nodes, edges);
+  adjList = {};
+  parent = {};
   for (const key of Object.keys(nodes)) {
     adjList[key] = [];
     parent[key] = null;
@@ -16,13 +18,46 @@ const createAdjacencyList = (nodes, edges) => {
       parent[child_id] = parent_id;
     }
   }
-  console.log(adjList);
+  // console.log(adjList);
+  // console.log(hasCycle(adjList));
 };
 
 const setAdjacencyList = (nodes, edges) => {
-  if (Object.keys(adjList).length === 0) {
-    createAdjacencyList(nodes, edges);
+  createAdjacencyList(nodes, edges);
+};
+
+const findCycle = (adjList) => {
+  const visited = new Set();
+  const recStack = new Set();
+  const cycle = [];
+
+  function isCyclic(node) {
+    if (!visited.has(node)) {
+      visited.add(node);
+      recStack.add(node);
+
+      const neighbors = adjList[node] || [];
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor) && isCyclic(neighbor)) {
+          cycle.push(neighbor);
+          return true;
+        } else if (recStack.has(neighbor)) {
+          cycle.push(neighbor);
+          return true;
+        }
+      }
+    }
+    recStack.delete(node);
+    return false;
   }
+
+  for (const node in adjList) {
+    if (isCyclic(node)) {
+      cycle.push(node);
+      return cycle;
+    }
+  }
+  return null;
 };
 
 export const getRootIds = (GraphNodes, GraphEdges) => {
@@ -40,6 +75,7 @@ export const getRootIds = (GraphNodes, GraphEdges) => {
 
 export const getVisibleNodes = (GraphNodes, GraphEdges, rootId) => {
   setAdjacencyList(GraphNodes, GraphEdges);
+  // console.log(adjList);
   let startingIndex = rootId;
   let visited = {};
   let queue = [startingIndex];

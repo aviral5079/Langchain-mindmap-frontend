@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getMessageResponse } from "../actions/chatsActions";
-import { InputRightElement, InputGroup, Input, Button } from "@chakra-ui/react";
+import { manualMindmap } from "../actions/mindmapActions";
+import {
+  InputGroup,
+  Input,
+  InputRightElement,
+  Button,
+  Textarea,
+} from "@chakra-ui/react";
 
 import { ArrowUpIcon } from "@chakra-ui/icons";
 
@@ -12,11 +19,22 @@ const ChatInput = ({ currentDocument, getMessageResponse }) => {
   const getResponse = async (e) => {
     e.preventDefault();
     if (message.trim() !== "") {
-      try {
-        setMessage("");
-        await dispatch(getMessageResponse(message));
-      } catch (err) {
-        console.error("Error getting response:", err);
+      if (message.startsWith(":")) {
+        const lines = message.split("\n");
+        if (lines.length > 1) {
+          const secondLine = lines[1].trim();
+          const page_numbers = secondLine.split(" ").map(Number);
+          console.log(currentDocument, page_numbers);
+          setMessage("");
+          await dispatch(manualMindmap(currentDocument, page_numbers));
+        }
+      } else {
+        try {
+          setMessage("");
+          await dispatch(getMessageResponse(message));
+        } catch (err) {
+          console.error("Error getting response:", err);
+        }
       }
     }
   };
@@ -24,14 +42,15 @@ const ChatInput = ({ currentDocument, getMessageResponse }) => {
   return (
     <InputGroup size="md">
       <Input
-        pr="4.5rem"
-        type="text"
+        as="textarea"
+        rows={4}
         placeholder={currentDocument ? "Enter question" : "Select Document"}
         disabled={currentDocument ? false : true}
         value={message}
         onChange={(e) => {
           setMessage(e.target.value);
         }}
+        resize="vertical"
       />
       <InputRightElement width="4.5rem">
         <Button h="1.75rem" size="sm" onClick={getResponse}>

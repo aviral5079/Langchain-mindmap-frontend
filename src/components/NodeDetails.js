@@ -35,34 +35,15 @@ const NodeDetails = ({
         <Tab>Content</Tab>
         <Tab>Summary</Tab>
         <Tab>Quiz</Tab>
-        <Tab>Words</Tab>
       </TabList>
 
       <TabPanels>
         <TabPanel>
-          {isContentLoading && (
+          {isWordCloudLoading && (
             <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
           )}
-          {!isContentLoading && (
-            <Box className="scrollable-container" maxH="82vh" overflowY="auto">
-              <Stack spacing={4} direction="column">
-                {content?.map((data, index) => {
-                  if (data.text) {
-                    return (
-                      <Text fontSize="sm" key={index}>
-                        {data.text}
-                      </Text>
-                    );
-                  } else {
-                    return (
-                      <Text fontSize="md" as="b" key={index}>
-                        {data.title}
-                      </Text>
-                    );
-                  }
-                })}
-              </Stack>
-            </Box>
+          {!isWordCloudLoading && (
+            <WordCloud isContentLoading={isContentLoading} content={content} />
           )}
         </TabPanel>
         <TabPanel>
@@ -94,14 +75,6 @@ const NodeDetails = ({
         </TabPanel>
         <TabPanel>
           <Quiz />
-        </TabPanel>
-        <TabPanel>
-          {isWordCloudLoading && (
-            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
-          )}
-          {!isWordCloudLoading && (
-            <WordCloud isContentLoading={isContentLoading} content={content} />
-          )}
         </TabPanel>
       </TabPanels>
     </Tabs>

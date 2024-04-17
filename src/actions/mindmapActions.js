@@ -1,5 +1,5 @@
 import * as types from "../constants/actionTypes";
-import { get } from "../services/api";
+import { get, post } from "../services/api";
 import {
   getNodeContent,
   getNodeSummary,
@@ -70,6 +70,25 @@ export const getMindmap = (pdf_file_id) => {
       dispatch(getWordCloud(currentRootNodeId));
     } catch (err) {
       dispatch(fetchMindmapFailure(err));
+    }
+  };
+};
+
+export const manualMindmap = (pdf_file_id, page_numbers) => {
+  return async (dispatch) => {
+    try {
+      const user_id = "Aviral";
+      let url = `createManualMindmap`;
+
+      url += `?user_id=${user_id}&pdf_file_id=${pdf_file_id}`;
+      page_numbers.forEach((page_number) => {
+        url += `&page_numbers=${page_number}`;
+      });
+      const response = await post(url);
+      // console.log(response);
+      dispatch(getMindmap(response.pdf_id));
+    } catch (err) {
+      console.log(err);
     }
   };
 };
