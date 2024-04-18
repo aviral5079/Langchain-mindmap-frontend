@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { getMessageResponse } from "../actions/chatsActions";
+import {
+  getMessageResponse,
+  fetchChatResponseSuccess,
+} from "../actions/chatsActions";
 import { manualMindmap } from "../actions/mindmapActions";
 import {
   InputGroup,
@@ -26,6 +29,12 @@ const ChatInput = ({ currentDocument, getMessageResponse }) => {
           const page_numbers = secondLine.split(" ").map(Number);
           console.log(currentDocument, page_numbers);
           setMessage("");
+          const chatbotMessage = {
+            role: "chatbot",
+            message: "Creating Manual Mindmap ...",
+          };
+          const chat = [chatbotMessage];
+          dispatch(fetchChatResponseSuccess(chat));
           await dispatch(manualMindmap(currentDocument, page_numbers));
         }
       } else {
@@ -39,24 +48,33 @@ const ChatInput = ({ currentDocument, getMessageResponse }) => {
     }
   };
 
+  const handleChange = (e) => {
+    setMessage(e.target.value);
+    const lines = e.target.value.split("\n").length;
+    e.target.rows = Math.min(4, Math.max(1, lines));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      getResponse(e);
+    }
+  };
+
   return (
     <InputGroup size="md">
-      <Input
-        as="textarea"
-        rows={4}
+      <Textarea
         placeholder={currentDocument ? "Enter question" : "Select Document"}
         disabled={currentDocument ? false : true}
         value={message}
-        onChange={(e) => {
-          setMessage(e.target.value);
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        rows={1}
+        resize="none"
+        style={{
+          overflowY: "auto",
+          maxHeight: "10rem",
         }}
-        resize="vertical"
       />
-      <InputRightElement width="4.5rem">
-        <Button h="1.75rem" size="sm" onClick={getResponse}>
-          <ArrowUpIcon />
-        </Button>
-      </InputRightElement>
     </InputGroup>
   );
 };

@@ -5,7 +5,7 @@ const fetchChatResponseRequest = () => ({
   type: types.FETCH_CHAT_RESPONSE_REQUEST,
 });
 
-const fetchChatResponseSuccess = (chat) => ({
+export const fetchChatResponseSuccess = (chat) => ({
   type: types.FETCH_CHAT_RESPONSE_SUCCESS,
   payload: { chat },
 });
