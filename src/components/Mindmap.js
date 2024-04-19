@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Button, Select } from "@chakra-ui/react";
 import ReactFlow, {
@@ -74,11 +74,56 @@ const Mindmap = ({
   currentRootNodeId,
   setCurrentRootNodeId,
 }) => {
+  const [sliderPosition, setSliderPosition] = useState(50);
   const dispatch = useDispatch();
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseMove = (e) => {
+    const newPosition = (e.clientX / window.innerWidth) * 100;
+
+    const minFirstComponentWidth = 40;
+    const maxFirstComponentWidth = 75;
+    const minSecondComponentWidth = 25;
+    const maxSecondComponentWidth = 60;
+
+    const minPosition = Math.min(
+      100 - maxSecondComponentWidth,
+      maxFirstComponentWidth
+    );
+    const maxPosition = Math.max(
+      minFirstComponentWidth,
+      100 - minSecondComponentWidth
+    );
+
+    const adjustedPosition = Math.max(
+      minPosition,
+      Math.min(newPosition, maxPosition)
+    );
+
+    if (adjustedPosition >= minPosition && adjustedPosition <= maxPosition) {
+      setSliderPosition(adjustedPosition);
+      const slider = document.querySelector(".slider");
+      slider.style.left = `${adjustedPosition - 0.5}%`;
+    }
+  };
+
+  const handleMouseUp = () => {
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
+
   if (currentDocument) {
     return (
       <div className="container">
-        <div className="mindmap-container">
+        <div
+          className="mindmap-container"
+          style={{ width: `${sliderPosition}%` }}
+        >
           <ReactFlowProvider>
             <CustomNodeFlow
               GraphNodes={GraphNodes}
@@ -116,7 +161,21 @@ const Mindmap = ({
           </div>
         </div>
         {isNodeDetailsVisible && (
-          <div className="node-details-container">
+          <div
+            className="sliderContainer"
+            style={{ left: `${sliderPosition}%` }}
+            onMouseDown={handleMouseDown}
+          >
+            <div className="slider" style={{ left: "-5px" }}>
+              <div className="sliderHandle"></div>
+            </div>
+          </div>
+        )}
+        {isNodeDetailsVisible && (
+          <div
+            className="node-details-container"
+            style={{ width: `calc(100% - ${sliderPosition}%)` }}
+          >
             <NodeDetails />
           </div>
         )}
