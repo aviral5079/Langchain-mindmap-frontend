@@ -6,32 +6,31 @@ import { addDocument } from "../actions/documentsActions";
 import { fileOptions as options } from "../constants/fileOptions";
 
 const FileInput = ({ isUploading }) => {
-  const [newDocument, setNewDocument] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const dispatch = useDispatch();
 
-  const addDocument = async (e) => {
+  const addDocuments = async (e) => {
     e.preventDefault();
-    if (newDocument.trim() !== "") {
-      if (selectedFile) {
-        const formData = new FormData();
-        formData.append("pdf_file", selectedFile);
-        try {
-          setNewDocument("");
-          setSelectedFile(null);
-          dispatch(uploadDocument(formData));
-        } catch (error) {
-          console.error("Error uploading file:", error);
-        }
+    if (selectedFiles.length > 0) {
+      try {
+        const uploadPromises = selectedFiles.map((file) => {
+          const formData = new FormData();
+          formData.append("pdf_file", file);
+          return dispatch(uploadDocument(formData));
+        });
+        await Promise.all(uploadPromises);
+        setSelectedFiles([]);
+      } catch (error) {
+        console.error("Error uploading files:", error);
       }
     }
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setNewDocument(file.name);
-    setSelectedFile(file);
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const newFiles = Array.from(files);
+    setSelectedFiles(newFiles);
   };
 
   return (
@@ -51,10 +50,11 @@ const FileInput = ({ isUploading }) => {
             type="file"
             required={true}
             onChange={handleFileChange}
+            multiple
           />
           <Button
             className="file-submit-btn"
-            onClick={addDocument}
+            onClick={addDocuments}
             isLoading={isUploading}
             loadingText="Uploading"
           >
