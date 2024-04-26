@@ -54,7 +54,7 @@ export const getMindmap = (pdf_file_id) => {
       dispatch(fetchMindmapRequest());
 
       // API call to get the mindmap
-      const mindmapResponse = await get("mindmapGraph", { pdf_file_id });
+      const mindmapResponse = await get("mindmapGraph", { user_id: "Aviral", pdf_file_id});
       dispatch(fetchMindmapSuccess(mindmapResponse));
 
       const rootNodeIds = getRootIds(

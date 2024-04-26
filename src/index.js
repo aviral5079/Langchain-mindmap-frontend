@@ -6,13 +6,15 @@ import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import App from "./App";
+import { fetchDocuments } from "./actions/documentsActions";
 
 const emotionCache = createCache({
   key: "emotion-css-cache",
-  prepend: true, // ensures styles are prepended to the <head>, instead of appended
+  prepend: true,
 });
 
 const store = configureStore();
+store.dispatch(fetchDocuments("Aviral"));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
