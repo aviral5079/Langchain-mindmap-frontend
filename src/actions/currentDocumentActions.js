@@ -13,6 +13,8 @@ export const setCurrentDocument = (document) => {
         payload: document,
       });
       dispatch(getMindmap(document.fileName));
+      dispatch(resetChats());
+      dispatch(resetNodeQuestions());
     } catch (e) {
       console.error(e);
     }

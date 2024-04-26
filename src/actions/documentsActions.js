@@ -26,7 +26,6 @@ export const fetchDocuments = (userId) => {
 
     try {
       const response = await get("getDocuments", { user_id: userId });
-      console.log(response);
 
       dispatch({
         type: types.FETCH_DOCUMENTS_SUCCESS,
